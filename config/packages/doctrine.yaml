@@ -21,7 +21,7 @@ doctrine:
                     Source:
                         is_bundle: false
                         type: annotation
-                        dir: '%kernel.project_dir%/src/Entity/Source'
+                        dir: '%kernel.project_dir%/src/Entity'
                         prefix: 'App\Entity\Source'
                         alias: Source
             destination:
@@ -30,6 +30,6 @@ doctrine:
                     Destination:
                         is_bundle: false
                         type: annotation
-                        dir: '%kernel.project_dir%/src/Entity/Destination'
+                        dir: '%kernel.project_dir%/src/Entity'
                         prefix: 'App\Entity\Destination'
                         alias: Destination
