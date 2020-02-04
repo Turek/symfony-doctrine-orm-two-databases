@@ -58,6 +58,9 @@
         },
         "generate-random-rows": {
             "app:generate-random-data 50": "symfony-cmd"
+        },
+        "move-data": {
+            "app:move-data": "symfony-cmd"
         }
     },
     "conflict": {

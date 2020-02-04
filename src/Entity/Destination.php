@@ -18,12 +18,13 @@ class Destination
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, options={"fixed" = true})
      */
+    // check , columnDefinition="CHAR(255)"
     private $fullname;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, options={"fixed" = true})
      */
     private $e_mail;
 
