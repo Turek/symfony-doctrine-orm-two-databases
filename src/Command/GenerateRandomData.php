@@ -5,7 +5,6 @@ namespace App\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use App\Entity\Destination;
 use App\Entity\Source;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -50,6 +49,7 @@ class GenerateRandomData extends Command
         $output->write('Generating ' . $count . ' random entries to Source database... ');
 
         if ($count > 0) {
+            $batchSize = 30;
             for($i = 0; $i < $count; $i++) {
                 $row = $this->generateFakeRow();
                 $source = new Source();
@@ -60,14 +60,20 @@ class GenerateRandomData extends Command
                 $source->setData2($row['data2']);
                 // Prepare object for saving.
                 $em->persist($source);
-                // Execute the save query.
-                $em->flush();
+                if (($i % $batchSize) === 0) {
+                    // Execute transaction every 30 entries.
+                    $em->flush();
+                    $em->clear();
+                }
             }
+            // Persist objects that did not make up an entire batch.
+            $em->flush();
+            $em->clear();
             unset($source);
         }
         $output->writeln('Done.');
 
-        return 1;
+        return 0;
     }
 
     private function generateFakeRow() {
@@ -76,8 +82,8 @@ class GenerateRandomData extends Command
             'name' => $faker->firstName(),
             'surname' => $faker->lastName,
             'email' => $faker->email,
-            'data' => $faker->randomFloat(),
-            'data2' => $faker->randomFloat(2,200,1500),
+            'data' => $faker->randomFloat(NULL,200,99999999),
+            'data2' => $faker->randomFloat(2,200,99999999),
         ];
     }
 }
