@@ -24,7 +24,6 @@ class MoveData extends Command
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        // $this->logger = $logger;
         parent::__construct();
     }
 

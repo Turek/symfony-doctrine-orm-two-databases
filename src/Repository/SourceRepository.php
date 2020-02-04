@@ -19,22 +19,16 @@ class SourceRepository extends ServiceEntityRepository
         parent::__construct($registry, Source::class);
     }
 
-    // /**
-    //  * @return Source[] Returns an array of Source objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Source[] Returns count of Source objects.
+     */
+    public function countAll()
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
+            ->select('count(s.id)')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getSingleScalarResult();
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Source
