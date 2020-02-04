@@ -37,15 +37,49 @@ class MoveData extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // Command execution.
-        $output->writeln('Test!');
-
         // Retrieves a repository managed by the "customer" em
-        $em = $this->container->get('doctrine')->getManager('source');
-        $records = $em->getRepository(Source::class)->findAll();
+        $emSource = $this->container->get('doctrine')->getManager('source');
+        $emDestination = $this->container->get('doctrine')->getManager('destination');
+        // Get all records from the source DB table.
+        $records = $emSource->getRepository(Source::class)->findAll();
+        $recordsCount = count($records);
+        $recordsSaved = 0;
 
-        print_r($records);
+        // Loop through all records.
+        if ($recordsCount) {
+            $batchSize = 30;
+            foreach ($records as $i => $row) {
+                $fullname = $row->getName() . ' ' . $row->getSurname();
+                $product = $emDestination->getRepository(Destination::class)->findOneBy([
+                    'fullname' => $fullname,
+                    'e_mail' => $row->getEmail(),
+                ]);
+                // Create record if none was found.
+                if (empty($product)) {
+                    $destination = new Destination();
+                    $destination->setFullname($fullname);
+                    $destination->setEMail($row->getEmail());
+                    // Parse float as decimal.
+                    $destination->setBalance(sprintf('%.2f', $row->getData()));
+                    $destination->setTotalpurchase($row->getData2());
+                    // Prepare object for saving.
+                    $emDestination->persist($destination);
+                    if (($i % $batchSize) === 0) {
+                        // Execute transaction every 30 entries.
+                        $emDestination->flush();
+                        $emDestination->clear();
+                    }
+                    $recordsSaved++;
+                }
+            }
+            // Persist objects that did not make up an entire batch.
+            $emDestination->flush();
+            $emDestination->clear();
+            unset($destination);
+        }
 
-        return 0;
+        $output->writeln($recordsSaved . '/' . $recordsCount . ' records moved to Destination database.');
+
+        return 1;
     }
 }
