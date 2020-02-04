@@ -1,0 +1,29 @@
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+
+# Core's dependencies are managed with Composer.
+vendor/
+etc/source-db/
+etc/destination-db/
+
+###< symfony/framework-bundle ###
+/*.code-workspace
+
+# Ignore .env files
+.env
+
+# Ignore local certs
+etc/nginx/ssl/*.pem
+etc/nginx/ssl/*.crt
+etc/nginx/ssl/*.key
+etc/nginx/ssl/*.p12
+
+# Ignore PHPStorm files
+.idea
+.DS_Store
