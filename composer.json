@@ -52,16 +52,20 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
-        "run-migrations": {
-            "doctrine:migrations:execute 20200203233400 --em source": "symfony-cmd",
-            "doctrine:migrations:execute 20200203234307 --em destination": "symfony-cmd"
-        },
-        "generate-random-rows": {
-            "app:generate-random-data 50": "symfony-cmd"
-        },
-        "move-data": {
-            "app:move-data": "symfony-cmd"
-        }
+        "run-migrations": [
+            "php bin/console doctrine:migrations:execute --up 20200204162840 --em=source",
+            "php bin/console doctrine:migrations:execute --up 20200204161316 --em=destination"
+        ],
+        "generate-random-rows": [
+            "php bin/console app:generate-random-data 55"
+        ],
+        "move-data": [
+            "php bin/console app:move-data"
+        ],
+        "clean-databases": [
+            "php bin/console doctrine:schema:drop --em=source --full-database --force",
+            "php bin/console doctrine:schema:drop --em=destination --full-database --force"
+        ]
     },
     "conflict": {
         "symfony/symfony": "*"

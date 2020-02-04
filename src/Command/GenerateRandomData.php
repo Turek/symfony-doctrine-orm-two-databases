@@ -73,7 +73,7 @@ class GenerateRandomData extends Command
         }
         $output->writeln('Done.');
 
-        return 1;
+        return 0;
     }
 
     private function generateFakeRow() {
@@ -82,8 +82,8 @@ class GenerateRandomData extends Command
             'name' => $faker->firstName(),
             'surname' => $faker->lastName,
             'email' => $faker->email,
-            'data' => $faker->randomFloat(),
-            'data2' => $faker->randomFloat(2,200,1500),
+            'data' => $faker->randomFloat(NULL,200,99999999),
+            'data2' => $faker->randomFloat(2,200,99999999),
         ];
     }
 }

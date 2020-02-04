@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200203234307 extends AbstractMigration
+final class Version20200204161316 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,7 +22,7 @@ final class Version20200203234307 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE customer_details (id INT AUTO_INCREMENT NOT NULL, fullname VARCHAR(255) NOT NULL, e_mail VARCHAR(255) NOT NULL, balance NUMERIC(10, 2) NOT NULL, totalpurchase NUMERIC(10, 2) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE customer_details (id INT AUTO_INCREMENT NOT NULL, fullname CHAR(255) NOT NULL, e_mail CHAR(255) NOT NULL, balance DECIMAL(10, 2) NOT NULL, totalpurchase DECIMAL(10, 2) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
     }
 
     public function down(Schema $schema) : void

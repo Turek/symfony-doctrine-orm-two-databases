@@ -80,6 +80,6 @@ class MoveData extends Command
 
         $output->writeln($recordsSaved . '/' . $recordsCount . ' records moved to Destination database.');
 
-        return 1;
+        return 0;
     }
 }
