@@ -40,15 +40,44 @@ class GenerateRandomData extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // Get count argument.
-        $count = $input->getArgument('count');
+        $count = (int) $input->getArgument('count');
 
         // Retrieves a repository managed by the "source" entity manager.
         $em = $this->container->get('doctrine')->getManager('source');
         $dbCount = $em->getRepository(Source::class)->countAll();
 
         $output->writeln('There are ' . $dbCount . ' entries in the database.');
-        $output->writeln('Generating ' . $count . ' random entries to Source database.');
+        $output->write('Generating ' . $count . ' random entries to Source database... ');
 
-        return 0;
+        if ($count > 0) {
+            for($i = 0; $i == $count; $i++) {
+                $row = $this->generateFakeRow();
+                $source = new Source();
+                $source->setName($row['name']);
+                $source->setSurname($row['surname']);
+                $source->setEmail($row['email']);
+                $source->setData($row['data']);
+                $source->setData2($row['data2']);
+                // Prepare object for saving.
+                $em->persist($source);
+                // Execute the save query.
+                $em->flush();
+            }
+            unset($source);
+        }
+        $output->writeln('Done.');
+
+        return 1;
+    }
+
+    private function generateFakeRow() {
+        $faker = \Faker\Factory::create();
+        return [
+            'name' => $faker->firstName(),
+            'surname' => $faker->lastName,
+            'email' => $faker->email,
+            'data' => $faker->randomFloat(),
+            'data2' => $faker->randomFloat(2,200,1500),
+        ];
     }
 }
