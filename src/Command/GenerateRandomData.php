@@ -50,7 +50,7 @@ class GenerateRandomData extends Command
         $output->write('Generating ' . $count . ' random entries to Source database... ');
 
         if ($count > 0) {
-            for($i = 0; $i == $count; $i++) {
+            for($i = 0; $i < $count; $i++) {
                 $row = $this->generateFakeRow();
                 $source = new Source();
                 $source->setName($row['name']);

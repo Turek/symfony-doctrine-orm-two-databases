@@ -30,15 +30,4 @@ class SourceRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
-    /*
-    public function findOneBySomeField($value): ?Source
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
