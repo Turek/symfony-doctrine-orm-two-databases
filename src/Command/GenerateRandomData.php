@@ -50,6 +50,7 @@ class GenerateRandomData extends Command
         $output->write('Generating ' . $count . ' random entries to Source database... ');
 
         if ($count > 0) {
+            $batchSize = 30;
             for($i = 0; $i < $count; $i++) {
                 $row = $this->generateFakeRow();
                 $source = new Source();
@@ -60,9 +61,15 @@ class GenerateRandomData extends Command
                 $source->setData2($row['data2']);
                 // Prepare object for saving.
                 $em->persist($source);
-                // Execute the save query.
-                $em->flush();
+                if (($i % $batchSize) === 0) {
+                    // Execute transaction every 30 entries.
+                    $em->flush();
+                    $em->clear();
+                }
             }
+            // Persist objects that did not make up an entire batch.
+            $em->flush();
+            $em->clear();
             unset($source);
         }
         $output->writeln('Done.');
