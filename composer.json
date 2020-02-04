@@ -55,6 +55,9 @@
         "run-migrations": {
             "doctrine:migrations:execute 20200203233400 --em source": "symfony-cmd",
             "doctrine:migrations:execute 20200203234307 --em destination": "symfony-cmd"
+        },
+        "generate-random-rows": {
+            "app:generate-random-data 50": "symfony-cmd"
         }
     },
     "conflict": {
